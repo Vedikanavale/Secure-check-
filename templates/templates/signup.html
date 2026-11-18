@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Sign up - SecureCheck{% endblock %}
+{% block content %}
+<h1>Create account</h1>
+<p class="lead">Pick a username and a password of at least 8 characters.</p>
+<form class="card" method="post">
+  <label for="username">Username</label>
+  <input type="text" id="username" name="username" required autocomplete="username">
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password" required autocomplete="new-password">
+  <button type="submit">Create account</button>
+</form>
+<p class="muted">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+{% endblock %}
