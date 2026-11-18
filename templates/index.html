@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Check a link before you click it.<br>Test a password before you use it.</h1>
+<p class="lead">SecureCheck looks at a link for common phishing signs and rates how strong a password is. Create a free account to keep a history of your checks.</p>
+<a class="btn" href="{{ url_for('signup') }}">Create account</a>
+<a class="btn" href="{{ url_for('login') }}">Log in</a>
+{% endblock %}
