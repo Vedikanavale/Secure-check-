@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - SecureCheck{% endblock %}
+{% block content %}
+<h1>Hello, {{ session.username }}</h1>
+<p class="lead">Check a link or a password. Your recent checks are listed below.</p>
+
+{% if result %}
+  {% set cls = 'v-good' if result.verdict in ['Looks safe', 'Strong'] else 'v-warn' if result.verdict in ['Suspicious', 'Medium'] else 'v-bad' %}
+  <div class="card">
+    <p class="verdict {{ cls }}">{{ result.verdict }}</p>
+    <ul class="notes">
+      {% for n in result.notes %}<li>{{ n }}</li>{% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<form class="card" method="post">
+  <input type="hidden" name="kind" value="link">
+  <label for="link">Link to check</label>
+  <input type="text" id="link" name="value" placeholder="https://example.com/login" required>
+  <button type="submit">Check link</button>
+</form>
+
+<form class="card" method="post">
+  <input type="hidden" name="kind" value="password">
+  <label for="pw">Password to test</label>
+  <input type="password" id="pw" name="value" autocomplete="off" required>
+  <p class="muted" style="margin:8px 0 0">Passwords are checked but never saved.</p>
+  <button type="submit">Test password</button>
+</form>
+
+<h2>Scan history</h2>
+{% if history %}
+<div class="card" style="overflow-x:auto">
+  <table>
+    <tr><th>Type</th><th>Checked</th><th>Result</th><th>When</th></tr>
+    {% for s in history %}
+    <tr>
+      <td>{{ s.kind|capitalize }}</td>
+      <td class="subject">{{ s.subject }}</td>
+      <td>{{ s.verdict }}</td>
+      <td class="muted">{{ s.created_at }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% else %}
+<p class="muted">No checks yet. Try a link or a password above.</p>
+{% endif %}
+{% endblock %}
